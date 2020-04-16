@@ -1,8 +1,8 @@
-# BUILD ENVIRONMENT 1
-FROM debian:stable-slim AS ottd_build
+# BUILD ENVIRONMENT 1
+FROM debian:latest AS ottd_build
 
-ARG OPENTTD_VERSION="1.10.1"
-ARG OPENGFX_VERSION="0.6.0"
+ARG OPENTTD_VERSION="0.3.4"
+ARG OPENGFX_VERSION="0.5.4"
 
 # Get things ready
 RUN mkdir -p /config \
@@ -25,10 +25,9 @@ RUN apt-get update && \
 # Build OpenTTD itself
 WORKDIR /tmp/src
 
-
-RUN git clone https://github.com/OpenTTD/OpenTTD.git . \
-    && git fetch --tags \
-    && git checkout ${OPENTTD_VERSION}
+RUN git clone https://github.com/JGRennison/OpenTTD-patches .
+#    && git fetch --tags \
+#    && git checkout ${OPENTTD_VERSION}
 
 RUN /tmp/src/configure \
     --enable-dedicated \
@@ -41,12 +40,12 @@ RUN /tmp/src/configure \
 RUN make -j"$(nproc)" \
     && make install
 
-# Add the latest graphics files
+# Add the latest graphics files
 ## Install OpenGFX
 RUN mkdir -p /app/data/baseset/ \
     && cd /app/data/baseset/ \
-    && wget -q https://cdn.openttd.org/opengfx-releases/${OPENGFX_VERSION}/opengfx-${OPENGFX_VERSION}-all.zip \
-    && unzip opengfx-${OPENGFX_VERSION}-all.zip \
+    && wget -q http://bundles.openttdcoop.org/opengfx/releases/${OPENGFX_VERSION}/opengfx-${OPENGFX_VERSION}.zip \
+    && unzip opengfx-${OPENGFX_VERSION}.zip \
     && tar -xf opengfx-${OPENGFX_VERSION}.tar \
     && rm -rf opengfx-*.tar opengfx-*.zip
 
@@ -63,20 +62,12 @@ RUN go get github.com/ropenttd/docker_openttd-bans-sidecar/pkg/banread \
     && go build -o /go/bin/banread github.com/ropenttd/docker_openttd-bans-sidecar/pkg/banread
 
 # END BUILD ENVIRONMENTS
-# DEPLOY ENVIRONMENT
+# DEPLOY ENVIRONMENT
 
-FROM debian:stable-slim
-ARG OPENTTD_VERSION="1.10.1"
-LABEL org.label-schema.name="OpenTTD" \
-      org.label-schema.description="Lightweight build of OpenTTD, designed for server use, with some extra helping treats." \
-      org.label-schema.url="https://github.com/ropenttd/docker_openttd" \
-      org.label-schema.vcs-url="https://github.com/openttd/openttd" \
-      org.label-schema.vendor="Reddit OpenTTD" \
-      org.label-schema.version=$OPENTTD_VERSION \
-      org.label-schema.schema-version="1.0"
+FROM debian:latest
 MAINTAINER duck. <me@duck.me.uk>
 
-# Setup the environment and install runtime dependencies
+# Setup the environment and install runtime dependencies
 RUN mkdir -p /config \
     && useradd -d /config -u 911 -s /bin/false openttd \
     && apt-get update \
@@ -88,10 +79,10 @@ RUN mkdir -p /config \
 
 WORKDIR /config
 
-# Copy the game data from the build container
+# Copy the game data from the build container
 COPY --from=ottd_build /app /app
 
-# And the banread executable from its build container
+# And the banread executable from its build container
 COPY --from=banread_build /go/bin/banread /usr/local/bin/banread
 
 # Add the entrypoint
