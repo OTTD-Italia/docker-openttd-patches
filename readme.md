@@ -1,15 +1,14 @@
 # OpenTTD in Docker
 __An image brought to you by /r/openttd__
 
-[![Build Status](https://github.ci.duck.moe/api/badges/ropenttd/docker_openttd/status.svg)](https://github.ci.duck.moe/ropenttd/docker_openttd)
-[![](https://images.microbadger.com/badges/image/redditopenttd/openttd.svg)](https://microbadger.com/images/redditopenttd/openttd "Get your own image badge on microbadger.com")
+Built from OpenTTD JGR source to provide the leanest, meanest image you'll come across for putting trainsets in containers.
 
-Built from OpenTTD source to provide the leanest, meanest image you'll come across for putting trainsets in containers.
+See https://github.com/JGRennison/OpenTTD-patches repository.
 
 
 ## Using this Container
 ```
-docker run -d -p 3979:3979/tcp -p 3979:3979/udp redditopenttd/openttd:latest
+docker run -d -p 3979:3979/tcp -p 3979:3979/udp sgobbit/openttd_jgr:latest
 ```
 
 The container is set by default to start a fresh game every time you restart the container. You can, however, change this behaviour with the `loadgame` envvar:
@@ -39,7 +38,7 @@ The easiest way to play with NewGRF's is to first download and configure them ho
 
 ### An example command to start a server
 ```
-docker run -it -p 3979:3979/tcp -p 3979:3979/udp -v /home/{username}/.openttd:/config:rw -e "loadgame=game.sav" redditopenttd/openttd:latest
+docker run -it -p 3979:3979/tcp -p 3979:3979/udp -v /home/{username}/.openttd:/config:rw -e "loadgame=game.sav" sgobbit/openttd_jgr:latest
 ```
 This will start a server with the console accessible due to ```-it``` in the command line, to run in the background use ```-d```.
 
@@ -59,14 +58,6 @@ For some usage scenarios, you may want to import a list of bans stored in a diff
 The [Bans Sidecar](https://github.com/ropenttd/docker_openttd-bans-sidecar) has been built to help with this. See the documentation there for help setting the sidecar up (making sure that you mount `/config` in the same place as this container), then simply set the `BAN_LIST` environment variable to `bans.txt`.
 
 With this set up properly, the sidecar will run occasionally to back up the ban list which OpenTTD writes occasionally to its config file to save things. When the container starts up from scratch, it will automagically merge the bans from both your openttd.cfg and the bans file, write them all to openttd.cfg, and then start up like usual.
-
-## Tags
-We'll automatically build a new tag every time a new beta or release candidate is released. If you'd like nightlies as well, please contact us, and I'll work it into our build scripts.
-
-* `stable` and `latest` track the latest stable release of OpenTTD.
-* `testing` tracks the latest _unstable_ release of OpenTTD. This includes betas and release candidates.
-* **`rc` and `beta` are deprecated** in favour of `testing`.
-* The `nightly` tag is reserved for nightly builds (but is not currently functional).
 
 ## Alpine, OpenTTD, and You
 
