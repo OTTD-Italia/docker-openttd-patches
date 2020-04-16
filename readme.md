@@ -1,14 +1,14 @@
 # OpenTTD in Docker
 __An image brought to you by /r/openttd__
 
-Built from OpenTTD JGR source to provide the leanest, meanest image you'll come across for putting trainsets in containers.
+Built from OpenTTD Patches source to provide the leanest, meanest image you'll come across for putting trainsets in containers.
 
 See https://github.com/JGRennison/OpenTTD-patches repository.
 
 
 ## Using this Container
 ```
-docker run -d -p 3979:3979/tcp -p 3979:3979/udp sgobbit/openttd_jgr:latest
+docker run -d -p 3979:3979/tcp -p 3979:3979/udp ottditalia/openttdpatches:latest
 ```
 
 The container is set by default to start a fresh game every time you restart the container. You can, however, change this behaviour with the `loadgame` envvar:
@@ -38,7 +38,7 @@ The easiest way to play with NewGRF's is to first download and configure them ho
 
 ### An example command to start a server
 ```
-docker run -it -p 3979:3979/tcp -p 3979:3979/udp -v /home/{username}/.openttd:/config:rw -e "loadgame=game.sav" sgobbit/openttd_jgr:latest
+docker run -it -p 3979:3979/tcp -p 3979:3979/udp -v /home/{username}/.openttd:/config:rw -e "loadgame=game.sav" ottditalia/openttdpatches:latest
 ```
 This will start a server with the console accessible due to ```-it``` in the command line, to run in the background use ```-d```.
 
