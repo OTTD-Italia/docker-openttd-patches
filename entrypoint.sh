@@ -24,33 +24,34 @@ fi
 if [ ${LOADGAME_CHECK} != "x" ]; then
         case ${loadgame} in
                 'false')
-                	echo "Creating a new game."
-                    exec /app/bin/openttd -D -x -d ${DEBUG}
-                    exit 0
+                        echo "Creating a new game."
+                        exec /app/bin/openttd -D -x -d ${DEBUG}
+                        exit 0
                 ;;
                 'last-autosave')
             		savegame_target=${savepath}/autosave/`ls -rt ${savepath}/autosave/ | tail -n1`
 
             		if [ -r ${savegame_target} ]; then
-                    	echo "Loading from autosave - ${savegame_target}"
-                        exec /app/bin/openttd -D -g ${savegame_target} -x -d ${DEBUG}
-                        exit 0
+                    	        echo "Loading from autosave - ${savegame_target}"
+                                exec /app/bin/openttd -D -g ${savegame_target} -x -d ${DEBUG}
+                                exit 0
             		else
-                		echo "${savegame_target} not found..."
-                		exit 1
+                                echo "Autosave not found - Creating a new game."
+                		exec /app/bin/openttd -D -x -d ${DEBUG}
+                    	        exit 0
             		fi
                 ;;
                 'exit')
             		savegame_target="${savepath}/autosave/exit.sav"
 
             		if [ -r ${savegame_target} ]; then
-                    	echo "Loading from exit save"
-                        exec /app/bin/openttd -D -g ${savegame_target} -x -d ${DEBUG}
-                        exit 0
+                    	        echo "Loading from exit save"
+                                exec /app/bin/openttd -D -g ${savegame_target} -x -d ${DEBUG}
+                                exit 0
             		else
                 		echo "${savegame_target} not found - Creating a new game."
                 		exec /app/bin/openttd -D -x -d ${DEBUG}
-                    	exit 0
+                    	        exit 0
             		fi
                 ;;
                 *)
@@ -66,7 +67,7 @@ if [ ${LOADGAME_CHECK} != "x" ]; then
                 ;;
         esac
 else
-        echo "loadgame not set - Creating a new game."
+        echo "Loadgame not set - Creating a new game."
     	exec /app/bin/openttd -D -x -d ${DEBUG}
         exit 0
 fi
