@@ -1,7 +1,7 @@
 # BUILD ENVIRONMENT 1
 FROM debian:latest AS ottd_build
 
-ARG OPENTTD_VERSION="0.3.4"
+ARG OPENTTD_VERSION="0.34.1"
 ARG OPENGFX_VERSION="0.5.4"
 
 # Get things ready
@@ -26,8 +26,8 @@ RUN apt-get update && \
 WORKDIR /tmp/src
 
 RUN git clone https://github.com/JGRennison/OpenTTD-patches .
-#    && git fetch --tags \
-#    && git checkout ${OPENTTD_VERSION}
+    && git fetch --tags \
+    && git checkout ${OPENTTD_VERSION}
 
 RUN /tmp/src/configure \
     --enable-dedicated \
