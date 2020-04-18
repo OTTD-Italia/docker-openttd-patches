@@ -25,7 +25,7 @@ RUN apt-get update && \
 # Build OpenTTD itself
 WORKDIR /tmp/src
 
-RUN git clone https://github.com/JGRennison/OpenTTD-patches .
+RUN git clone https://github.com/JGRennison/OpenTTD-patches . \
     && git fetch --tags \
     && git checkout ${OPENTTD_VERSION}
 
@@ -65,7 +65,7 @@ RUN go get github.com/ropenttd/docker_openttd-bans-sidecar/pkg/banread \
 # DEPLOY ENVIRONMENT
 
 FROM debian:latest
-MAINTAINER duck. <me@duck.me.uk>
+MAINTAINER OTTD-Italia
 
 # Setup the environment and install runtime dependencies
 RUN mkdir -p /config \
