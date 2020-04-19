@@ -54,10 +54,10 @@ if [ ${LOADGAME_CHECK} != "x" ]; then
 fi
 
 
-if [ [ ${savegame_target} != "x" ] && [ -r ${savegame_target} ] ]; then
+if [ ${savegame_target} != "x" ] && [ -r ${savegame_target} ]; then
 	echo "Loading from savegame - ${savegame_target}"
 	exec /app/bin/openttd -D -g ${savegame_target} -x -d ${DEBUG}
-elif [ [ ${SCENARIO_CHECK} != "x" ] && [ [ -r ${scenario_target} ] ]; then
+elif [ ${SCENARIO_CHECK} != "x" ] && [ -r ${scenario_target} ]; then
 	echo "Creating a new game. Start scenario ${scenario}"
 	exec /app/bin/openttd -D -g ${scenario_target} -x -d ${DEBUG}
 else
