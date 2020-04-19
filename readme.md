@@ -1,17 +1,21 @@
-# OpenTTD in Docker
-__An image brought to you by /r/openttd__
+# OpenTTD Patches in Docker
+__An image brought to you by OTTD Italia__
 
 Built from OpenTTD Patches source to provide the leanest, meanest image you'll come across for putting trainsets in containers.
 
 See https://github.com/JGRennison/OpenTTD-patches repository.
 
-
 ## Using this Container
+Minimal command to run this image:
+
 ```
 docker run -d -p 3979:3979/tcp -p 3979:3979/udp ottditalia/openttdpatches:latest
 ```
 
-The container is set by default to start a fresh game every time you restart the container. You can, however, change this behaviour with the `loadgame` envvar:
+The container is set by default to start a fresh game every time you restart the container. 
+
+
+You can, however, change this behaviour with the `loadgame` envvar:
 ```
 -e "loadgame={false|last-autosave|exit|(savename)}"
 ```
@@ -20,6 +24,14 @@ where:
 * last-autosave: load the last chronological autosave
 * exit: try to load autosave/exit.sav, otherwise default to a new game
 * (savename): full name of a save file in config/saves
+
+You can, however, change this behaviour with the `loadgame` envvar:
+```
+-e "scenario={(scenario)}"
+```
+where:
+* (scenario): full name of a scenario file in config/scenario
+
 
 You'll probably want stuff to be persistant between container rebuilds, so we've got the `/config` volume for exactly that purpose.
 
@@ -38,7 +50,7 @@ The easiest way to play with NewGRF's is to first download and configure them ho
 
 ### An example command to start a server
 ```
-docker run -it -p 3979:3979/tcp -p 3979:3979/udp -v /home/{username}/.openttd:/config:rw -e "loadgame=game.sav" ottditalia/openttdpatches:latest
+docker run -it -p 3979:3979/tcp -p 3979:3979/udp -v /home/{username}/.openttd:/config:rw -e "loadgame=mygamegame.sav" -e  "scenario=myscenario.scn" ottditalia/openttdpatches:latest
 ```
 This will start a server with the console accessible due to ```-it``` in the command line, to run in the background use ```-d```.
 
