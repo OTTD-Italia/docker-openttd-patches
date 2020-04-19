@@ -55,14 +55,14 @@ if [ ${LOADGAME_CHECK} != "x" ]; then
             		fi
                 ;;
                 *)
-                	savegame_target="${savepath}/${loadgame}"
-                    if [ -f ${savegame_target} ]; then
-                            echo "Loading ${savegame_target}"
-                            exec /app/bin/openttd -D -g ${savegame_target} -x -d ${DEBUG}
-                            exit 0
-                    else
-                            echo "${savegame_target} not found..."
-                            exit 1
+               	        savegame_target="${savepath}/${loadgame}"
+                        if [ -f ${savegame_target} ]; then
+                                echo "Loading ${savegame_target}"
+                                exec /app/bin/openttd -D -g ${savegame_target} -x -d ${DEBUG}
+                                exit 0
+                        else
+                                echo "${savegame_target} not found..."
+                                exit 1
                     fi
                 ;;
         esac

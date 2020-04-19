@@ -1,7 +1,7 @@
 # BUILD ENVIRONMENT 1
 FROM debian:latest AS ottd_build
 
-ARG OPENTTD_VERSION="0.34.1"
+ARG OPENTTD_VERSION="jgrpp-0.34.1"
 ARG OPENGFX_VERSION="0.5.4"
 
 # Get things ready
